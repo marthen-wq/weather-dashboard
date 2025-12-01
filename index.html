@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+        }
+        h1 { color: #667eea; }
+        .status { 
+            padding: 20px; 
+            background: #f0f0f0; 
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard Cuaca - Test Page</h1>
+        <div class="status">
+            <p><strong>Status:</strong> File berhasil dimuat!</p>
+            <p><strong>Browser:</strong> <span id="browser"></span></p>
+            <p><strong>Waktu:</strong> <span id="time"></span></p>
+        </div>
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        document.getElementById('browser').textContent = navigator.userAgent;
+        document.getElementById('time').textContent = new Date().toLocaleString('id-ID');
+        
+        // Test API call
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=1.4293&longitude=101.2318&current=temperature_2m')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = 
+                    '<div class="status" style="background: #d4edda;">' +
+                    '<p><strong>✅ API Test Berhasil!</strong></p>' +
+                    '<p>Suhu saat ini: ' + data.current.temperature_2m + '°C</p>' +
+                    '</div>';
+            })
+            .catch(err => {
+                document.getElementById('result').innerHTML = 
+                    '<div class="status" style="background: #f8d7da;">' +
+                    '<p><strong>❌ API Test Gagal!</strong></p>' +
+                    '<p>Error: ' + err.message + '</p>' +
+                    '</div>';
+            });
+    </script>
+</body>
+</html>
