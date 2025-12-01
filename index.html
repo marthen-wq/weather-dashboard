@@ -1019,6 +1019,29 @@
             // Catatan: BMKG menggunakan kode wilayah administrasi, bukan koordinat langsung
             // Untuk koordinat di Riau, kita gunakan data wilayah terdekat
 
+            // Helper function untuk convert Visual Crossing icon ke weather code
+            const vcIconToWeatherCode = (icon) => {
+                const iconMap = {
+                    'clear-day': 0,
+                    'clear-night': 0,
+                    'partly-cloudy-day': 2,
+                    'partly-cloudy-night': 2,
+                    'cloudy': 3,
+                    'fog': 45,
+                    'wind': 3,
+                    'rain': 61,
+                    'snow': 71,
+                    'sleet': 66,
+                    'thunder': 95,
+                    'thunder-rain': 95,
+                    'thunder-showers-day': 95,
+                    'thunder-showers-night': 95,
+                    'showers-day': 80,
+                    'showers-night': 80
+                };
+                return iconMap[icon] || 3;
+            };
+
             const fetchWeather = async () => {
                 setLoading(true);
                 setError(null);
@@ -1475,28 +1498,6 @@
                 return 'Berawan';
             };
 
-            const vcIconToWeatherCode = (icon) => {
-                // Convert Visual Crossing icon to WMO weather code
-                const iconMap = {
-                    'clear-day': 0,
-                    'clear-night': 0,
-                    'partly-cloudy-day': 2,
-                    'partly-cloudy-night': 2,
-                    'cloudy': 3,
-                    'fog': 45,
-                    'wind': 3,
-                    'rain': 61,
-                    'snow': 71,
-                    'sleet': 66,
-                    'thunder': 95,
-                    'thunder-rain': 95,
-                    'thunder-showers-day': 95,
-                    'thunder-showers-night': 95,
-                    'showers-day': 80,
-                    'showers-night': 80
-                };
-                return iconMap[icon] || 3;
-            };
 
             const getWeatherIconEmoji = (code) => {
                 const icons = {
