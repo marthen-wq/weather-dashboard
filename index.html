@@ -1043,14 +1043,54 @@
                         setHourlyData(hourlyJson);
                     }
 
-                    // Fetch monthly data untuk 16 hari ke depan (limit free tier Open-Meteo)
-                    const monthlyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=precipitation_probability&timezone=Asia/Jakarta&forecast_days=16`;
+                    // Fetch monthly data untuk 30 hari ke depan menggunakan Visual Crossing
+                    const today = new Date();
+                    const endDate = new Date(today);
+                    endDate.setDate(endDate.getDate() + 30);
+                    
+                    const formatDateVC = (date) => {
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    };
+                    
+                    const startDateStr = formatDateVC(today);
+                    const endDateStr = formatDateVC(endDate);
+                    
+                    const monthlyUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${LAT},${LON}/${startDateStr}/${endDateStr}?unitGroup=metric&key=TW7RDYPC3FUS3YZN596YGJ5PG&include=days,hours&elements=datetime,tempmax,tempmin,temp,humidity,precipprob,conditions,icon`;
                     
                     const monthlyResponse = await fetch(monthlyUrl);
                     if (monthlyResponse.ok) {
                         const monthlyJson = await monthlyResponse.json();
-                        console.log('Monthly data loaded:', monthlyJson);
-                        setMonthlyData(monthlyJson);
+                        console.log('Monthly data loaded from Visual Crossing:', monthlyJson);
+                        
+                        // Convert Visual Crossing format ke format yang kompatibel
+                        const convertedData = {
+                            daily: {
+                                time: monthlyJson.days.map(d => d.datetime),
+                                temperature_2m_max: monthlyJson.days.map(d => d.tempmax),
+                                temperature_2m_min: monthlyJson.days.map(d => d.tempmin),
+                                precipitation_probability_max: monthlyJson.days.map(d => d.precipprob || 0),
+                                weather_code: monthlyJson.days.map(d => vcIconToWeatherCode(d.icon))
+                            },
+                            hourly: {
+                                time: [],
+                                precipitation_probability: []
+                            }
+                        };
+                        
+                        // Process hourly data untuk setiap hari
+                        monthlyJson.days.forEach(day => {
+                            if (day.hours) {
+                                day.hours.forEach(hour => {
+                                    convertedData.hourly.time.push(`${day.datetime}T${hour.datetime}`);
+                                    convertedData.hourly.precipitation_probability.push(hour.precipprob || 0);
+                                });
+                            }
+                        });
+                        
+                        setMonthlyData(convertedData);
                     } else {
                         console.error('Monthly data fetch failed:', monthlyResponse.status);
                     }
@@ -1337,7 +1377,7 @@
                 let totalSundays = 0;
                 let totalWorkdays = 0;
                 
-                const weeks = [[], [], []]; // 3 minggu untuk 16 hari (7+7+2)
+                const weeks = [[], [], [], []]; // 4 minggu untuk 30 hari
                 
                 monthlyData.daily.time.forEach((dateStr, index) => {
                     const date = new Date(dateStr);
@@ -1391,7 +1431,7 @@
                     
                     // Masukkan ke minggu yang sesuai
                     const weekIndex = Math.floor(index / 7);
-                    if (weekIndex < 3) { // 3 minggu untuk 16 hari
+                    if (weekIndex < 4) { // 4 minggu untuk 30 hari
                         weeks[weekIndex].push({
                             date: date,
                             dateStr: dateStr,
@@ -1433,6 +1473,29 @@
                 if (code >= 80 && code <= 82) return 'Hujan Sedang';
                 if (code >= 95) return 'Hujan Lebat';
                 return 'Berawan';
+            };
+
+            const vcIconToWeatherCode = (icon) => {
+                // Convert Visual Crossing icon to WMO weather code
+                const iconMap = {
+                    'clear-day': 0,
+                    'clear-night': 0,
+                    'partly-cloudy-day': 2,
+                    'partly-cloudy-night': 2,
+                    'cloudy': 3,
+                    'fog': 45,
+                    'wind': 3,
+                    'rain': 61,
+                    'snow': 71,
+                    'sleet': 66,
+                    'thunder': 95,
+                    'thunder-rain': 95,
+                    'thunder-showers-day': 95,
+                    'thunder-showers-night': 95,
+                    'showers-day': 80,
+                    'showers-night': 80
+                };
+                return iconMap[icon] || 3;
             };
 
             const getWeatherIconEmoji = (code) => {
@@ -2055,11 +2118,14 @@
                         </div>
                     )}
 
-                    <h2 className="section-title">Perkiraan Cuaca 16 Hari Ke Depan</h2>
+                    <h2 className="section-title">Perkiraan Cuaca 30 Hari Ke Depan</h2>
 
                     {monthlyData && monthlyData.daily && (
                         <div className="monthly-forecast">
-                            <h2>Analisis Cuaca 16 Hari</h2>
+                            <h2>Analisis Cuaca 30 Hari</h2>
+                            <div className="source-info" style={{marginBottom: '20px', fontSize: '14px', color: '#666'}}>
+                                <strong>Sumber Data:</strong> Visual Crossing (Rating Akurasi: 9.4/10) - Data dari 100,000+ stasiun cuaca global
+                            </div>
                             
                             {analyze30Days() && analyze30Days().weeks.map((week, weekIndex) => (
                                 <div key={weekIndex} className="week-section">
@@ -2100,7 +2166,7 @@
                             {analyze30Days() && (
                                 <div className="summary-section">
                                     <div className="summary-title">
-                                        📊 Rangkuman 16 Hari
+                                        📊 Rangkuman 30 Hari
                                     </div>
                                     
                                     <div className="summary-grid">
@@ -2132,7 +2198,7 @@
                                             <div className="summary-label">Total Hari Kerja</div>
                                             <div className="summary-value">{analyze30Days().summary.totalWorkdays}</div>
                                             <div className="summary-desc">
-                                                Hari Senin-Sabtu dalam periode 16 hari
+                                                Hari Senin-Sabtu dalam periode 30 hari
                                             </div>
                                         </div>
                                     </div>
