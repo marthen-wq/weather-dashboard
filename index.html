@@ -1034,7 +1034,7 @@
                         setWeeklyData(data); // Gunakan Open-Meteo untuk weekly karena paling akurat
                     }
 
-                    // Fetch hourly data untuk 4 dan 8 jam ke depan
+                    // Fetch hourly data untuk 4 dan 8 jam ke depan dari Open-Meteo
                     const hourlyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&timezone=Asia/Jakarta&forecast_days=1`;
                     
                     const hourlyResponse = await fetch(hourlyUrl);
@@ -2110,7 +2110,7 @@
                                             {getWeatherDescription(weeklyData.daily.weather_code[index])}
                                         </div>
                                         <div className="day-precip">
-                                            💧 {weeklyData.daily.precipitation_probability_max[index]}%
+                                            {weeklyData.daily.precipitation_probability_max[index]}%
                                         </div>
                                     </div>
                                 ))}
@@ -2152,7 +2152,7 @@
                                                     {getWeatherCondition(day.weatherCode)}
                                                 </div>
                                                 <div className="day-rain-prob">
-                                                    💧 {Math.round(day.rainProb)}%
+                                                    {Math.round(day.rainProb)}%
                                                 </div>
                                                 <div style={{fontSize: '11px', color: '#999', marginTop: '5px'}}>
                                                     {Math.round(day.tempMax)}° / {Math.round(day.tempMin)}°
@@ -2166,7 +2166,7 @@
                             {analyze30Days() && (
                                 <div className="summary-section">
                                     <div className="summary-title">
-                                        📊 Rangkuman 30 Hari
+                                        Rangkuman 30 Hari
                                     </div>
                                     
                                     <div className="summary-grid">
