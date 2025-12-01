@@ -1432,12 +1432,6 @@
                 return 'Berawan';
             };
 
-            const getWindDirection = (degrees) => {
-                const directions = ['Utara', 'Timur Laut', 'Timur', 'Tenggara', 'Selatan', 'Barat Daya', 'Barat', 'Barat Laut'];
-                const index = Math.round(degrees / 45) % 8;
-                return directions[index];
-            };
-
             const getWeatherIconEmoji = (code) => {
                 const icons = {
                     0: '☀️',    // Clear sky
