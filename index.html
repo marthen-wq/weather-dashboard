@@ -1043,13 +1043,16 @@
                         setHourlyData(hourlyJson);
                     }
 
-                    // Fetch monthly data untuk 30 hari ke depan
-                    const monthlyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=precipitation_probability&timezone=Asia/Jakarta&forecast_days=30`;
+                    // Fetch monthly data untuk 16 hari ke depan (limit free tier Open-Meteo)
+                    const monthlyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=precipitation_probability&timezone=Asia/Jakarta&forecast_days=16`;
                     
                     const monthlyResponse = await fetch(monthlyUrl);
                     if (monthlyResponse.ok) {
                         const monthlyJson = await monthlyResponse.json();
+                        console.log('Monthly data loaded:', monthlyJson);
                         setMonthlyData(monthlyJson);
+                    } else {
+                        console.error('Monthly data fetch failed:', monthlyResponse.status);
                     }
 
                     // 2. Visual Crossing (Dengan API key - AKTIF)
@@ -1334,7 +1337,7 @@
                 let totalSundays = 0;
                 let totalWorkdays = 0;
                 
-                const weeks = [[], [], [], []];
+                const weeks = [[], [], []]; // 3 minggu untuk 16 hari (7+7+2)
                 
                 monthlyData.daily.time.forEach((dateStr, index) => {
                     const date = new Date(dateStr);
@@ -1388,7 +1391,7 @@
                     
                     // Masukkan ke minggu yang sesuai
                     const weekIndex = Math.floor(index / 7);
-                    if (weekIndex < 4) {
+                    if (weekIndex < 3) { // 3 minggu untuk 16 hari
                         weeks[weekIndex].push({
                             date: date,
                             dateStr: dateStr,
@@ -2052,11 +2055,11 @@
                         </div>
                     )}
 
-                    <h2 className="section-title">Perkiraan Cuaca 30 Hari Ke Depan</h2>
+                    <h2 className="section-title">Perkiraan Cuaca 16 Hari Ke Depan</h2>
 
                     {monthlyData && monthlyData.daily && (
                         <div className="monthly-forecast">
-                            <h2>Analisis Cuaca 30 Hari</h2>
+                            <h2>Analisis Cuaca 16 Hari</h2>
                             
                             {analyze30Days() && analyze30Days().weeks.map((week, weekIndex) => (
                                 <div key={weekIndex} className="week-section">
@@ -2097,7 +2100,7 @@
                             {analyze30Days() && (
                                 <div className="summary-section">
                                     <div className="summary-title">
-                                        📊 Rangkuman 30 Hari
+                                        📊 Rangkuman 16 Hari
                                     </div>
                                     
                                     <div className="summary-grid">
@@ -2129,7 +2132,7 @@
                                             <div className="summary-label">Total Hari Kerja</div>
                                             <div className="summary-value">{analyze30Days().summary.totalWorkdays}</div>
                                             <div className="summary-desc">
-                                                Hari Senin-Sabtu dalam periode 30 hari
+                                                Hari Senin-Sabtu dalam periode 16 hari
                                             </div>
                                         </div>
                                     </div>
