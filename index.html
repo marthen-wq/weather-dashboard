@@ -16,14 +16,15 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            color: #fff;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
@@ -31,7 +32,6 @@
             background: white;
             border-radius: 20px;
             padding: 30px;
-            margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         
@@ -39,32 +39,21 @@
             display: grid;
             grid-template-columns: 1fr 350px;
             gap: 30px;
-            align-items: start;
         }
         
         .header-info h1 {
             color: #333;
             font-size: 28px;
-            margin-bottom: 10px;
             font-weight: 700;
         }
         
         .location {
             color: #666;
             font-size: 16px;
-            margin-bottom: 5px;
         }
         
         .location-selector {
             margin-top: 15px;
-        }
-        
-        .location-selector label {
-            color: #666;
-            font-size: 14px;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 8px;
         }
         
         .location-dropdown {
@@ -77,17 +66,10 @@
             color: #333;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 500;
         }
         
         .location-dropdown:hover {
             border-color: #667eea;
-        }
-        
-        .location-dropdown:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .last-update {
@@ -111,10 +93,10 @@
         }
         
         .section-title {
-            color: white;
+            color: #fff;
             font-size: 24px;
             font-weight: 700;
-            margin: 30px 0 15px 0;
+            margin: 30px 0;
             padding-bottom: 10px;
             border-bottom: 3px solid rgba(255,255,255,0.3);
         }
@@ -123,7 +105,6 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin-bottom: 30px;
         }
         
         .source-card {
@@ -132,7 +113,6 @@
             padding: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
-            overflow: hidden;
         }
         
         .source-badge {
@@ -152,219 +132,6 @@
             background: #48bb78;
         }
         
-        .weather-animation {
-            position: relative;
-            height: 120px;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Sun Animation */
-        .sun {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #FDB813 0%, #FF9500 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(253, 184, 19, 0.5);
-            animation: rotate 20s linear infinite;
-            position: relative;
-        }
-        
-        .sun::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(253, 184, 19, 0.3) 0%, transparent 70%);
-            animation: pulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-        
-        /* Cloud Animation */
-        .cloud-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .cloud {
-            width: 90px;
-            height: 35px;
-            background: #ecf0f1;
-            border-radius: 50px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .cloud::before {
-            content: '';
-            width: 50px;
-            height: 50px;
-            background: #ecf0f1;
-            border-radius: 50%;
-            position: absolute;
-            top: -25px;
-            left: 10px;
-        }
-        
-        .cloud::after {
-            content: '';
-            width: 40px;
-            height: 40px;
-            background: #ecf0f1;
-            border-radius: 50%;
-            position: absolute;
-            top: -20px;
-            right: 15px;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        /* Rain Animation */
-        .rain {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-        
-        .raindrop {
-            position: absolute;
-            width: 2px;
-            height: 15px;
-            background: linear-gradient(to bottom, rgba(174, 214, 241, 0) 0%, rgba(174, 214, 241, 1) 100%);
-            animation: fall linear infinite;
-        }
-        
-        .raindrop:nth-child(1) { left: 20%; animation-duration: 1s; animation-delay: 0s; }
-        .raindrop:nth-child(2) { left: 40%; animation-duration: 1.2s; animation-delay: 0.2s; }
-        .raindrop:nth-child(3) { left: 60%; animation-duration: 0.9s; animation-delay: 0.4s; }
-        .raindrop:nth-child(4) { left: 80%; animation-duration: 1.1s; animation-delay: 0.1s; }
-        .raindrop:nth-child(5) { left: 30%; animation-duration: 1s; animation-delay: 0.3s; }
-        .raindrop:nth-child(6) { left: 50%; animation-duration: 1.3s; animation-delay: 0.5s; }
-        .raindrop:nth-child(7) { left: 70%; animation-duration: 0.8s; animation-delay: 0.2s; }
-        
-        @keyframes fall {
-            0% { top: -20px; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-        
-        /* Thunder Animation */
-        .thunder {
-            position: absolute;
-            width: 4px;
-            height: 30px;
-            background: #f39c12;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: lightning 2s ease-in-out infinite;
-            box-shadow: 0 0 10px #f39c12;
-        }
-        
-        .thunder::before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 15px solid #f39c12;
-            top: -15px;
-            left: -6px;
-        }
-        
-        .thunder::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 12px solid #f39c12;
-            bottom: -12px;
-            left: -3px;
-        }
-        
-        @keyframes lightning {
-            0%, 45%, 55%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-        
-        /* Cloud with Sun */
-        .cloud-sun {
-            position: relative;
-        }
-        
-        .cloud-sun .sun {
-            width: 50px;
-            height: 50px;
-            position: absolute;
-            top: -10px;
-            right: -20px;
-            z-index: 1;
-        }
-        
-        .cloud-sun .cloud {
-            z-index: 2;
-        }
-        
-        /* Fog Animation */
-        .fog {
-            position: relative;
-            width: 100%;
-            height: 60px;
-        }
-        
-        .fog-layer {
-            position: absolute;
-            width: 100%;
-            height: 20px;
-            background: linear-gradient(to right, rgba(236, 240, 241, 0) 0%, rgba(236, 240, 241, 0.8) 50%, rgba(236, 240, 241, 0) 100%);
-            border-radius: 10px;
-            animation: fogMove 8s ease-in-out infinite;
-        }
-        
-        .fog-layer:nth-child(1) { top: 10px; animation-delay: 0s; }
-        .fog-layer:nth-child(2) { top: 25px; animation-delay: 2s; }
-        .fog-layer:nth-child(3) { top: 40px; animation-delay: 4s; }
-        
-        @keyframes fogMove {
-            0%, 100% { transform: translateX(-20px); opacity: 0.5; }
-            50% { transform: translateX(20px); opacity: 1; }
-        }
-        
-        .source-card h3 {
-            color: #333;
-            font-size: 18px;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
         .temp-large {
             font-size: 56px;
             font-weight: bold;
@@ -375,9 +142,8 @@
         .condition {
             font-size: 18px;
             color: #666;
-            margin-bottom: 20px;
         }
-        
+
         .detail-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -389,7 +155,7 @@
             padding: 12px;
             border-radius: 8px;
         }
-        
+
         .detail-label {
             color: #999;
             font-size: 11px;
@@ -404,145 +170,6 @@
             font-weight: 600;
         }
         
-        .weekly-forecast {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-        
-        .weekly-forecast h2 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .source-info {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: #f0f7ff;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .weekly-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 12px;
-        }
-        
-        .day-card {
-            background: #2a2a2a;
-            border-radius: 15px;
-            padding: 20px 15px;
-            text-align: center;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .day-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .day-card:hover::before {
-            opacity: 1;
-        }
-        
-        .day-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border-color: #667eea;
-        }
-        
-        .day-card.today {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-        
-        .day-card.today .day-name,
-        .day-card.today .day-date,
-        .day-card.today .day-condition,
-        .day-card.today .day-precip,
-        .day-card.today .temp-max,
-        .day-card.today .temp-min {
-            color: white !important;
-        }
-        
-        .day-name {
-            font-weight: 700;
-            color: #e0e0e0;
-            margin-bottom: 8px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .day-date {
-            color: #999;
-            font-size: 11px;
-            margin-bottom: 15px;
-        }
-        
-        .weather-icon-display {
-            font-size: 48px;
-            margin: 15px 0;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .day-temp {
-            margin: 15px 0;
-            display: flex;
-            justify-content: center;
-            align-items: baseline;
-            gap: 8px;
-        }
-        
-        .temp-max {
-            color: #fff;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
-        .temp-min {
-            color: #888;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .day-condition {
-            color: #b0b0b0;
-            font-size: 12px;
-            margin: 10px 0;
-            min-height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .day-precip {
-            color: #4fc3f7;
-            font-size: 11px;
-            font-weight: 600;
-            margin-top: 8px;
-        }
-        
         .chart-container {
             background: white;
             border-radius: 20px;
@@ -551,118 +178,37 @@
             margin-bottom: 20px;
             min-height: 450px;
         }
-        
-        .chart-container h2 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 20px;
-            font-weight: 700;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-        
-        .chart-container canvas {
-            max-height: 350px !important;
-            height: 350px !important;
-        }
-        
-        .hourly-forecast {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-        
-        .hourly-forecast h2 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 25px;
-            font-weight: 700;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-        
-        .hourly-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        
-        .hourly-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px;
-            padding: 25px;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .hourly-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-color: #667eea;
-        }
-        
-        .hourly-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #dee2e6;
-        }
-        
-        .hourly-time {
-            font-size: 18px;
-            font-weight: 700;
-            color: #667eea;
-        }
-        
-        .hourly-icon {
-            font-size: 48px;
-        }
-        
-        .hourly-temp-display {
-            font-size: 42px;
-            font-weight: bold;
-            color: #333;
-            margin: 15px 0;
-        }
-        
-        .hourly-condition {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        
-        .hourly-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        
-        .hourly-detail-item {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-        }
-        
-        .hourly-detail-label {
-            color: #999;
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .hourly-detail-value {
-            color: #333;
-            font-size: 16px;
-            font-weight: 600;
+
+        .error {
+            background: #ff4444;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
         }
 
-        /* MONTHLY FORECAST STYLES - 30 DAYS */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .monthly-forecast {
             background: white;
             border-radius: 20px;
@@ -671,38 +217,9 @@
             margin-bottom: 20px;
         }
 
-        .monthly-forecast h2 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
         .monthly-grid {
             display: grid;
             gap: 20px;
-        }
-
-        .week-container {
-            border: 2px solid #f0f0f0;
-            border-radius: 15px;
-            padding: 20px;
-            background: #fafafa;
-        }
-
-        .week-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .week-days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
         }
 
         .monthly-day-card {
@@ -719,46 +236,12 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-color: #667eea;
         }
-
-        .monthly-day-card.sunday {
-            background: #ffe8e8;
-        }
-
-        .monthly-day-card.rain-warning {
-            background: #fff3cd;
-            border-color: #ffc107;
-        }
-
+        
         .monthly-day-name {
             font-weight: 600;
             color: #333;
-            font-size: 11px;
+            font-size: 12px;
             margin-bottom: 5px;
-        }
-
-        .monthly-day-date {
-            color: #666;
-            font-size: 10px;
-            margin-bottom: 10px;
-        }
-
-        .monthly-day-icon {
-            font-size: 32px;
-            margin: 8px 0;
-        }
-
-        .monthly-day-condition {
-            font-size: 10px;
-            color: #666;
-            margin: 8px 0;
-            min-height: 28px;
-        }
-
-        .monthly-day-rain {
-            font-size: 10px;
-            color: #4fc3f7;
-            font-weight: 600;
-            margin: 5px 0;
         }
 
         .monthly-day-temps {
@@ -767,1224 +250,121 @@
             color: #333;
             margin-top: 8px;
         }
-
-        .summary-section {
-            background: #f0f7ff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            border-left: 4px solid #667eea;
-        }
-
-        .summary-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .summary-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .summary-label {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        .summary-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: #667eea;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: white;
-            font-size: 18px;
-        }
-        
-        .loading-spinner {
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error {
-            background: #ff4444;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .refresh-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-        
-        .refresh-btn:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .alert-banner {
-            background: linear-gradient(135deg, #ff9800 0%, #ff6b00 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            font-weight: 600;
-            box-shadow: 0 5px 20px rgba(255,152,0,0.3);
-        }
-        
-        .data-sources {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-top: 20px;
-        }
-        
-        .data-sources h3 {
-            color: #333;
-            font-size: 18px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        
-        .sources-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        
-        .source-item {
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .source-name {
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .source-desc {
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .accuracy-badge {
-            display: inline-block;
-            background: #48bb78;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-        
-        @media (max-width: 1200px) {
-            .weekly-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .week-days {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        
-        @media (max-width: 900px) {
-            .comparison-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .weekly-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .sources-list {
-                grid-template-columns: 1fr;
-            }
-
-            .week-days {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .map-container {
-                height: 200px;
-            }
-            
-            .temp-large {
-                font-size: 42px;
-            }
-            
-            .weekly-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .week-days {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
     <div id="root"></div>
+
     <script type="text/babel">
         const { useState, useEffect } = React;
         
         function WeatherApp() {
             const [openMeteoData, setOpenMeteoData] = useState(null);
             const [visualCrossingData, setVisualCrossingData] = useState(null);
-            const [googleWeatherData, setGoogleWeatherData] = useState(null);
-            const [weeklyData, setWeeklyData] = useState(null);
-            const [hourlyData, setHourlyData] = useState(null);
-            const [monthlyData, setMonthlyData] = useState(null);
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState(null);
             const [lastUpdate, setLastUpdate] = useState(null);
-            const [selectedLocation, setSelectedLocation] = useState('location1');
-            
-            const locations = {
-                location1: {
-                    name: 'B-PIT KSA',
-                    lat: 1.4293,
-                    lon: 101.2318,
-                    display: '1°25\'45.5"N 101°13\'54.5"E'
-                },
-                location2: {
-                    name: 'Wellpad - Beka25 Inj003',
-                    lat: 1.26852,
-                    lon: 101.12638,
-                    display: '1°16\'06.7"N 101°07\'35.0"E'
-                }
-            };
-            
-            const currentLocation = locations[selectedLocation];
-            const LAT = currentLocation.lat;
-            const LON = currentLocation.lon;
-            
-            const VISUAL_CROSSING_KEY = 'TW7RDYPC3FUS3YZN596YGJ5PG';
-            
-            const fetchWeather = async () => {
+
+            const fetchWeatherData = async () => {
                 setLoading(true);
                 setError(null);
-                
+
                 try {
-                    // 1. Open-Meteo
-                    const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,cloud_cover&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia/Jakarta&forecast_days=7`;
-                    
+                    // Open-Meteo (Hari 1-15)
+                    const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=1.4293&longitude=101.2318&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia/Jakarta&forecast_days=15`;
                     const openMeteoResponse = await fetch(openMeteoUrl);
                     if (openMeteoResponse.ok) {
-                        const data = await openMeteoResponse.json();
-                        setOpenMeteoData(data);
-                        setWeeklyData(data);
+                        const openMeteoData = await openMeteoResponse.json();
+                        setOpenMeteoData(openMeteoData);
                     }
-                    
-                    // Fetch hourly
-                    const hourlyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&timezone=Asia/Jakarta&forecast_days=1`;
-                    
-                    const hourlyResponse = await fetch(hourlyUrl);
-                    if (hourlyResponse.ok) {
-                        const hourlyJson = await hourlyResponse.json();
-                        setHourlyData(hourlyJson);
-                    }
-                    
-                    // 2. Visual Crossing
-                    const visualCrossingUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${LAT},${LON}/today?unitGroup=metric&key=${VISUAL_CROSSING_KEY}&include=current`;
+
+                    // Visual Crossing (Hari 16-30)
+                    const visualCrossingUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/1.4293,101.2318/next30days?unitGroup=metric&key=YOUR_API_KEY&include=days`;
                     const visualCrossingResponse = await fetch(visualCrossingUrl);
                     if (visualCrossingResponse.ok) {
-                        const data = await visualCrossingResponse.json();
-                        setVisualCrossingData(data);
+                        const visualCrossingData = await visualCrossingResponse.json();
+                        setVisualCrossingData(visualCrossingData);
                     }
-                    
-                    // 3. Google Weather substitute
-                    const googleWeatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m&timezone=auto`;
-                    
-                    const googleResponse = await fetch(googleWeatherUrl);
-                    if (googleResponse.ok) {
-                        const googleData = await googleResponse.json();
-                        setGoogleWeatherData(googleData);
-                    }
-                    
-                    // 4. MONTHLY DATA - 30 DAYS
-                    const today = new Date();
-                    const endDate = new Date(today);
-                    endDate.setDate(endDate.getDate() + 30);
-                    
-                    const formatDateVC = (date) => {
-                        const year = date.getFullYear();
-                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                        const day = String(date.getDate()).padStart(2, '0');
-                        return `${year}-${month}-${day}`;
-                    };
-                    
-                    const startDateStr = formatDateVC(today);
-                    const endDateStr = formatDateVC(endDate);
-                    
-                    const monthlyUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${LAT},${LON}/${startDateStr}/${endDateStr}?unitGroup=metric&key=${VISUAL_CROSSING_KEY}&include=days,hours&elements=datetime,tempmax,tempmin,temp,humidity,precipprob,conditions,icon`;
-                    
-                    const monthlyResponse = await fetch(monthlyUrl);
-                    if (monthlyResponse.ok) {
-                        const monthlyJson = await monthlyResponse.json();
-                        console.log('Monthly data loaded');
-                        setMonthlyData(monthlyJson);
-                    }
-                    
+
                     setLastUpdate(new Date());
                     setLoading(false);
                 } catch (err) {
-                    console.error('Error fetching weather:', err);
-                    setError(err.message);
+                    console.error("Error fetching weather data:", err);
+                    setError("Gagal memuat data cuaca.");
                     setLoading(false);
                 }
             };
-            
+
             useEffect(() => {
-                fetchWeather();
-            }, [selectedLocation]);
-            
-            useEffect(() => {
-                const interval = setInterval(fetchWeather, 30 * 60 * 1000);
-                return () => clearInterval(interval);
-            }, [selectedLocation]);
-            
-            useEffect(() => {
-                if (weeklyData && weeklyData.daily && weeklyData.daily.time) {
-                    setTimeout(() => {
-                        updateChart();
-                    }, 100);
-                }
-            }, [weeklyData]);
-            
-            const getWeatherDescription = (code) => {
-                const descriptions = {
-                    0: 'Cerah',
-                    1: 'Cerah Berawan',
-                    2: 'Berawan Sebagian',
-                    3: 'Berawan',
-                    45: 'Berkabut',
-                    48: 'Kabut Tebal',
-                    51: 'Gerimis Ringan',
-                    53: 'Gerimis',
-                    55: 'Gerimis Lebat',
-                    61: 'Hujan Ringan',
-                    63: 'Hujan',
-                    65: 'Hujan Lebat',
-                    71: 'Salju Ringan',
-                    73: 'Salju',
-                    75: 'Salju Lebat',
-                    80: 'Hujan Ringan',
-                    81: 'Hujan Sedang',
-                    82: 'Hujan Deras',
-                    95: 'Badai Petir',
-                    96: 'Badai dengan Hujan Es',
-                    99: 'Badai dengan Hujan Es Lebat'
-                };
-                return descriptions[code] || 'Tidak Diketahui';
-            };
-            
-            const updateChart = () => {
-                const canvas = document.getElementById('tempChart');
-                if (!canvas) return;
-                
-                if (!weeklyData || !weeklyData.daily) return;
-                
-                const ctx = canvas.getContext('2d');
-                
-                if (window.tempChart) {
-                    window.tempChart.destroy();
-                }
-                
-                const labels = weeklyData.daily.time.map(date => {
-                    const d = new Date(date);
-                    const days = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-                    return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
-                });
-                
-                window.tempChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Suhu Maksimum (°C)',
-                            data: weeklyData.daily.temperature_2m_max,
-                            borderColor: '#ff6b6b',
-                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                            tension: 0.4,
-                            fill: true,
-                            borderWidth: 3,
-                            pointRadius: 5,
-                            pointHoverRadius: 7,
-                            pointBackgroundColor: '#ff6b6b',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2
-                        }, {
-                            label: 'Suhu Minimum (°C)',
-                            data: weeklyData.daily.temperature_2m_min,
-                            borderColor: '#4ecdc4',
-                            backgroundColor: 'rgba(78, 205, 196, 0.1)',
-                            tension: 0.4,
-                            fill: true,
-                            borderWidth: 3,
-                            pointRadius: 5,
-                            pointHoverRadius: 7,
-                            pointBackgroundColor: '#4ecdc4',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    },
-                                    padding: 20,
-                                    usePointStyle: true
-                                }
-                            },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                backgroundColor: 'rgba(0,0,0,0.8)',
-                                padding: 12,
-                                titleFont: {
-                                    size: 14,
-                                    weight: 'bold'
-                                },
-                                bodyFont: {
-                                    size: 13
-                                },
-                                borderColor: '#667eea',
-                                borderWidth: 1
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                title: {
-                                    display: true,
-                                    text: 'Suhu (°C)',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    }
-                                },
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 12
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 11
-                                    },
-                                    maxRotation: 45,
-                                    minRotation: 45
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    }
-                });
-            };
-            
-            const getHourlyForecasts = () => {
-                if (!hourlyData || !hourlyData.hourly) return null;
-                
-                const now = new Date();
-                const forecasts = [];
-                
-                hourlyData.hourly.time.forEach((time, index) => {
-                    const forecastTime = new Date(time);
-                    const hoursDiff = Math.round((forecastTime - now) / (1000 * 60 * 60));
-                    
-                    if (hoursDiff === 4 || hoursDiff === 8) {
-                        forecasts.push({
-                            hours: hoursDiff,
-                            time: forecastTime,
-                            temperature: hourlyData.hourly.temperature_2m[index],
-                            humidity: hourlyData.hourly.relative_humidity_2m[index],
-                            precipitation: hourlyData.hourly.precipitation_probability[index],
-                            weatherCode: hourlyData.hourly.weather_code[index],
-                            windSpeed: hourlyData.hourly.wind_speed_10m[index],
-                            windDirection: hourlyData.hourly.wind_direction_10m[index]
-                        });
-                    }
-                });
-                
-                if (forecasts.length < 2) {
-                    const forecast4h = {
-                        hours: 4,
-                        time: new Date(now.getTime() + 4 * 60 * 60 * 1000),
-                        temperature: hourlyData.hourly.temperature_2m[Math.min(4, hourlyData.hourly.time.length - 1)],
-                        humidity: hourlyData.hourly.relative_humidity_2m[Math.min(4, hourlyData.hourly.time.length - 1)],
-                        precipitation: hourlyData.hourly.precipitation_probability[Math.min(4, hourlyData.hourly.time.length - 1)],
-                        weatherCode: hourlyData.hourly.weather_code[Math.min(4, hourlyData.hourly.time.length - 1)],
-                        windSpeed: hourlyData.hourly.wind_speed_10m[Math.min(4, hourlyData.hourly.time.length - 1)],
-                        windDirection: hourlyData.hourly.wind_direction_10m[Math.min(4, hourlyData.hourly.time.length - 1)]
-                    };
-                    
-                    const forecast8h = {
-                        hours: 8,
-                        time: new Date(now.getTime() + 8 * 60 * 60 * 1000),
-                        temperature: hourlyData.hourly.temperature_2m[Math.min(8, hourlyData.hourly.time.length - 1)],
-                        humidity: hourlyData.hourly.relative_humidity_2m[Math.min(8, hourlyData.hourly.time.length - 1)],
-                        precipitation: hourlyData.hourly.precipitation_probability[Math.min(8, hourlyData.hourly.time.length - 1)],
-                        weatherCode: hourlyData.hourly.weather_code[Math.min(8, hourlyData.hourly.time.length - 1)],
-                        windSpeed: hourlyData.hourly.wind_speed_10m[Math.min(8, hourlyData.hourly.time.length - 1)],
-                        windDirection: hourlyData.hourly.wind_direction_10m[Math.min(8, hourlyData.hourly.time.length - 1)]
-                    };
-                    
-                    return [forecast4h, forecast8h];
-                }
-                
-                return forecasts.sort((a, b) => a.hours - b.hours);
-            };
-            
-            const getWindDirection = (degrees) => {
-                const directions = ['Utara', 'Timur Laut', 'Timur', 'Tenggara', 'Selatan', 'Barat Daya', 'Barat', 'Barat Laut'];
-                const index = Math.round(degrees / 45) % 8;
-                return directions[index];
-            };
-            
-            const getWeatherIconEmoji = (code) => {
-                const icons = {
-                    0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
-                    45: '🌫️', 48: '🌫️',
-                    51: '🌦️', 53: '🌧️', 55: '🌧️',
-                    61: '🌧️', 63: '🌧️', 65: '🌧️',
-                    71: '🌨️', 73: '🌨️', 75: '🌨️',
-                    80: '🌦️', 81: '🌧️', 82: '⛈️',
-                    85: '🌨️', 86: '🌨️',
-                    95: '⛈️', 96: '⛈️', 99: '⛈️'
-                };
-                return icons[code] || '🌤️';
-            };
-            
-            const getDayName = (dateString) => {
-                const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                const date = new Date(dateString);
-                return days[date.getDay()];
-            };
-            
-            const formatDate = (dateString) => {
-                const date = new Date(dateString);
-                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-                return `${date.getDate()} ${months[date.getMonth()]}`;
-            };
-            
-            const isToday = (dateString) => {
-                const today = new Date();
-                const date = new Date(dateString);
-                return date.getDate() === today.getDate() &&
-                       date.getMonth() === today.getMonth() &&
-                       date.getFullYear() === today.getFullYear();
-            };
-            
-            const getWeatherAnimation = (code) => {
-                if (code === 0) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="sun"></div>
-                        </div>
-                    );
-                }
-                else if (code === 1 || code === 2) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-sun">
-                                <div className="sun"></div>
-                                <div className="cloud"></div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (code === 3) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-container">
-                                <div className="cloud"></div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (code === 45 || code === 48) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="fog">
-                                <div className="fog-layer"></div>
-                                <div className="fog-layer"></div>
-                                <div className="fog-layer"></div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (code >= 51 && code <= 67 || code >= 80 && code <= 82) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-container">
-                                <div className="cloud"></div>
-                                <div className="rain">
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (code >= 95) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-container">
-                                <div className="cloud" style={{background: '#7f8c8d'}}></div>
-                                <div className="thunder"></div>
-                                <div className="rain">
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
-                return (
-                    <div className="weather-animation">
-                        <div className="cloud-container">
-                            <div className="cloud"></div>
-                        </div>
-                    </div>
-                );
-            };
-            
-            const getVisualCrossingAnimation = (conditions) => {
-                if (!conditions) return null;
-                
-                const cond = conditions.toLowerCase();
-                
-                if (cond.includes('clear') || cond.includes('sunny')) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="sun"></div>
-                        </div>
-                    );
-                }
-                else if (cond.includes('partly')) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-sun">
-                                <div className="sun"></div>
-                                <div className="cloud"></div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (cond.includes('overcast') || cond.includes('cloudy')) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-container">
-                                <div className="cloud"></div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (cond.includes('rain') || cond.includes('drizzle') || cond.includes('shower')) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-container">
-                                <div className="cloud"></div>
-                                <div className="rain">
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (cond.includes('thunder') || cond.includes('storm')) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="cloud-container">
-                                <div className="cloud" style={{background: '#7f8c8d'}}></div>
-                                <div className="thunder"></div>
-                                <div className="rain">
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                    <div className="raindrop"></div>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
-                else if (cond.includes('fog') || cond.includes('mist')) {
-                    return (
-                        <div className="weather-animation">
-                            <div className="fog">
-                                <div className="fog-layer"></div>
-                                <div className="fog-layer"></div>
-                                <div className="fog-layer"></div>
-                            </div>
-                        </div>
-                    );
-                }
-                return (
-                    <div className="weather-animation">
-                        <div className="cloud-container">
-                            <div className="cloud"></div>
-                        </div>
-                    </div>
-                );
-            };
+                fetchWeatherData();
+            }, []);
 
-            const vcIconToWeatherCode = (icon) => {
-                const iconMap = {
-                    'clear-day': 0, 'clear-night': 0,
-                    'partly-cloudy-day': 2, 'partly-cloudy-night': 2,
-                    'cloudy': 3, 'fog': 45, 'wind': 3,
-                    'rain': 61, 'snow': 71, 'sleet': 66,
-                    'thunder': 95, 'thunder-rain': 95,
-                    'thunder-showers-day': 95, 'thunder-showers-night': 95,
-                    'showers-day': 80, 'showers-night': 80
-                };
-                return iconMap[icon] || 3;
-            };
-
-            const getMonthlyForecast = () => {
-                if (!monthlyData || !monthlyData.days) return null;
-
-                // FILTER: Hanya ambil data yang VALID (bukan 0°/0°)
-                const validDays = monthlyData.days
-                    .filter(day => !(day.tempmax === 0 && day.tempmin === 0))
-                    .map((day, index) => {
-                        const date = new Date(day.datetime);
-                        return {
-                            date: date,
-                            dayName: getDayName(day.datetime),
-                            dateStr: formatDate(day.datetime),
-                            icon: getWeatherIconEmoji(vcIconToWeatherCode(day.icon)),
-                            condition: day.conditions,
-                            tempMax: Math.round(day.tempmax),
-                            tempMin: Math.round(day.tempmin),
-                            rainProb: day.precipprob || 0,
-                            isSunday: date.getDay() === 0
-                        };
-                    });
-
-                // Split into weeks
-                const weeks = [[], [], [], []];
-                validDays.forEach((day, index) => {
-                    const weekIndex = Math.floor(index / 7);
-                    if (weekIndex < 4) {
-                        weeks[weekIndex].push(day);
-                    }
-                });
-
-                // Calculate summary - HANYA hari kerja (Senin-Sabtu)
-                let rainDays = 0;
-                let clearDays = 0;
-                let sundays = 0;
-                let workDays = 0;
-
-                validDays.forEach(day => {
-                    if (day.isSunday) {
-                        sundays++;
-                    } else {
-                        // Hari kerja (Senin - Sabtu)
-                        workDays++;
-                        
-                        // Kriteria hujan: kemungkinan hujan > 20%
-                        if (day.rainProb > 20) {
-                            rainDays++;
-                        } else {
-                            // Kriteria cerah: kemungkinan hujan <= 20%
-                            clearDays++;
-                        }
-                    }
-                });
-
-                return { weeks, rainDays, clearDays, sundays, workDays };
-            };
-            
             if (loading) {
                 return (
                     <div className="loading">
                         <div className="loading-spinner"></div>
-                        <h2>Memuat data cuaca dari multiple sumber...</h2>
+                        <h2>Memuat data cuaca...</h2>
                     </div>
                 );
             }
-            
+
             if (error) {
                 return (
-                    <div className="container">
-                        <div className="error">
-                            <h2>Error</h2>
-                            <p>{error}</p>
-                            <button className="refresh-btn" onClick={fetchWeather}>
-                                Coba Lagi
-                            </button>
-                        </div>
+                    <div className="error">
+                        <h2>Error</h2>
+                        <p>{error}</p>
                     </div>
                 );
             }
-            
-            const openMeteoCurrent = openMeteoData?.current;
-            const hasSignificantRain = openMeteoCurrent && openMeteoCurrent.precipitation > 1;
-            const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15955.0!2d${LON}!3d${LAT}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sid!4v1234567890`;
-            
-            const monthlyForecast = getMonthlyForecast();
-            
+
             return (
                 <div className="container">
                     <div className="header">
                         <div className="header-content">
                             <div className="header-info">
                                 <h1>Dashboard Cuaca Multi-Sumber</h1>
-                                <div className="location">
-                                    Koordinat: {currentLocation.display}
-                                </div>
-                                <div className="location-selector">
-                                    <label htmlFor="locationSelect">Pilih Lokasi:</label>
-                                    <select 
-                                        id="locationSelect"
-                                        className="location-dropdown"
-                                        value={selectedLocation}
-                                        onChange={(e) => setSelectedLocation(e.target.value)}
-                                    >
-                                        {Object.keys(locations).map(key => (
-                                            <option key={key} value={key}>
-                                                {locations[key].name} ({locations[key].display})
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                {lastUpdate && (
-                                    <div className="last-update">
-                                        Terakhir diperbarui: {lastUpdate.toLocaleString('id-ID', { 
-                                            dateStyle: 'full', 
-                                            timeStyle: 'short' 
-                                        })}
-                                    </div>
-                                )}
-                                <button className="refresh-btn" onClick={fetchWeather}>
-                                    Perbarui Data
-                                </button>
+                                <div className="location">Lokasi: B-PIT KSA (1°25'45.5"N 101°13'54.5"E)</div>
+                                <div className="last-update">Terakhir diperbarui: {lastUpdate?.toLocaleString()}</div>
                             </div>
                             <div className="map-container">
-                                <iframe
-                                    src={mapUrl}
-                                    allowFullScreen=""
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                ></iframe>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15955.0!2d101.2318!3d1.4293" loading="lazy"></iframe>
                             </div>
                         </div>
                     </div>
-                    
-                    {hasSignificantRain && (
-                        <div className="alert-banner">
-                            {openMeteoCurrent.precipitation > 10 ? (
-                                <>Peringatan: Hujan Lebat di lokasi Anda (Curah Hujan: {openMeteoCurrent.precipitation} mm)</>
-                            ) : openMeteoCurrent.precipitation > 5 ? (
-                                <>Peringatan: Hujan Sedang di lokasi Anda (Curah Hujan: {openMeteoCurrent.precipitation} mm)</>
-                            ) : (
-                                <>Info: Hujan Ringan di lokasi Anda (Curah Hujan: {openMeteoCurrent.precipitation} mm)</>
-                            )}
-                        </div>
-                    )}
-                    
-                    <h2 className="section-title">Perbandingan Data Cuaca Hari Ini dari 3 Sumber Utama</h2>
-                    
-                    <div className="comparison-grid">
-                        <div className="source-card recommended">
-                            <div className="source-badge">Terakurat</div>
-                            <h3>Open-Meteo</h3>
-                            {openMeteoCurrent ? (
-                                <>
-                                    {getWeatherAnimation(openMeteoCurrent.weather_code)}
-                                    <div className="temp-large">
-                                        {Math.round(openMeteoCurrent.temperature_2m)}°C
-                                    </div>
-                                    <div className="condition">
-                                        {getWeatherDescription(openMeteoCurrent.weather_code)}
-                                    </div>
-                                    <div className="detail-grid">
-                                        <div className="detail-item">
-                                            <div className="detail-label">Terasa Seperti</div>
-                                            <div className="detail-value">{Math.round(openMeteoCurrent.apparent_temperature)}°C</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Kelembaban</div>
-                                            <div className="detail-value">{openMeteoCurrent.relative_humidity_2m}%</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Angin</div>
-                                            <div className="detail-value">{Math.round(openMeteoCurrent.wind_speed_10m)} km/h</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Awan</div>
-                                            <div className="detail-value">{openMeteoCurrent.cloud_cover}%</div>
-                                        </div>
-                                    </div>
-                                </>
-                            ) : (
-                                <p style={{color: '#999', textAlign: 'center', padding: '40px 0'}}>Data tidak tersedia</p>
-                            )}
-                        </div>
-                        
-                        <div className="source-card">
-                            <div className="source-badge">Sumber 2</div>
-                            <h3>Visual Crossing</h3>
-                            {visualCrossingData ? (
-                                <>
-                                    {getVisualCrossingAnimation(visualCrossingData.currentConditions.conditions)}
-                                    <div className="temp-large">
-                                        {Math.round(visualCrossingData.currentConditions.temp)}°C
-                                    </div>
-                                    <div className="condition">
-                                        {visualCrossingData.currentConditions.conditions}
-                                    </div>
-                                    <div className="detail-grid">
-                                        <div className="detail-item">
-                                            <div className="detail-label">Terasa Seperti</div>
-                                            <div className="detail-value">{Math.round(visualCrossingData.currentConditions.feelslike)}°C</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Kelembaban</div>
-                                            <div className="detail-value">{Math.round(visualCrossingData.currentConditions.humidity)}%</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Angin</div>
-                                            <div className="detail-value">{Math.round(visualCrossingData.currentConditions.windspeed)} km/h</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Tekanan</div>
-                                            <div className="detail-value">{Math.round(visualCrossingData.currentConditions.pressure)} mb</div>
-                                        </div>
-                                    </div>
-                                </>
-                            ) : (
-                                <div style={{textAlign: 'center', padding: '40px 20px'}}>
-                                    <p style={{color: '#999', marginBottom: '10px'}}>Perlu API Key</p>
-                                    <p style={{color: '#666', fontSize: '13px'}}>Daftar gratis di<br/>visualcrossing.com</p>
-                                </div>
-                            )}
-                        </div>
-                        
-                        <div className="source-card">
-                            <div className="source-badge">Sumber 3</div>
-                            <h3>Weather Data</h3>
-                            {googleWeatherData && googleWeatherData.current ? (
-                                <>
-                                    {getWeatherAnimation(googleWeatherData.current.weather_code)}
-                                    <div className="temp-large">
-                                        {Math.round(googleWeatherData.current.temperature_2m)}°C
-                                    </div>
-                                    <div className="condition">
-                                        {getWeatherDescription(googleWeatherData.current.weather_code)}
-                                    </div>
-                                    <div className="detail-grid">
-                                        <div className="detail-item">
-                                            <div className="detail-label">Kelembaban</div>
-                                            <div className="detail-value">{googleWeatherData.current.relative_humidity_2m}%</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Angin</div>
-                                            <div className="detail-value">{Math.round(googleWeatherData.current.wind_speed_10m)} km/h</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Curah Hujan</div>
-                                            <div className="detail-value">{googleWeatherData.current.precipitation} mm</div>
-                                        </div>
-                                        <div className="detail-item">
-                                            <div className="detail-label">Arah Angin</div>
-                                            <div className="detail-value">{Math.round(googleWeatherData.current.wind_direction_10m)}°</div>
-                                        </div>
-                                    </div>
-                                </>
-                            ) : (
-                                <div style={{textAlign: 'center', padding: '40px 20px'}}>
-                                    <p style={{color: '#999', marginBottom: '10px'}}>Memuat Data...</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    
-                    <h2 className="section-title">Perkiraan Cuaca {currentLocation.name}</h2>
-                    
-                    {hourlyData && (
-                        <div className="hourly-forecast">
-                            <h2>Prakiraan 4 Jam dan 8 Jam Ke Depan</h2>
-                            <div className="hourly-grid">
-                                {getHourlyForecasts() && getHourlyForecasts().map((forecast, index) => (
-                                    <div key={index} className="hourly-card">
-                                        <div className="hourly-header">
-                                            <div className="hourly-time">
-                                                +{forecast.hours} Jam ({forecast.time.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })})
-                                            </div>
-                                            <div className="hourly-icon">
-                                                {getWeatherIconEmoji(forecast.weatherCode)}
-                                            </div>
-                                        </div>
-                                        <div className="hourly-temp-display">
-                                            {Math.round(forecast.temperature)}°C
-                                        </div>
-                                        <div className="hourly-condition">
-                                            {getWeatherDescription(forecast.weatherCode)}
-                                        </div>
-                                        <div className="hourly-details">
-                                            <div className="hourly-detail-item">
-                                                <div className="hourly-detail-label">Kelembaban</div>
-                                                <div className="hourly-detail-value">{Math.round(forecast.humidity)}%</div>
-                                            </div>
-                                            <div className="hourly-detail-item">
-                                                <div className="hourly-detail-label">Hujan</div>
-                                                <div className="hourly-detail-value">{forecast.precipitation}%</div>
-                                            </div>
-                                            <div className="hourly-detail-item">
-                                                <div className="hourly-detail-label">Kec. Angin</div>
-                                                <div className="hourly-detail-value">{Math.round(forecast.windSpeed)} km/h</div>
-                                            </div>
-                                            <div className="hourly-detail-item">
-                                                <div className="hourly-detail-label">Arah Angin</div>
-                                                <div className="hourly-detail-value">{getWindDirection(forecast.windDirection)}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                    
-                    <h2 className="section-title">Perkiraan Cuaca 7 Hari Ke Depan</h2>
-                    {weeklyData && weeklyData.daily && (
-                        <div className="weekly-forecast">
-                            <h2>Prakiraan Mingguan</h2>
-                            <div className="source-info">
-                                <strong>Sumber Data:</strong> Open-Meteo (Rating Akurasi: 9.5/10) - Data dari layanan meteorologi nasional dengan model prediksi tingkat tinggi
-                            </div>
-                            <div className="weekly-grid">
-                                {weeklyData.daily.time.map((date, index) => (
-                                    <div key={index} className={`day-card ${isToday(date) ? 'today' : ''}`}>
-                                        <div className="day-name">
-                                            {isToday(date) ? 'HARI INI' : getDayName(date).substring(0, 3).toUpperCase()}
-                                        </div>
-                                        <div className="day-date">{formatDate(date)}</div>
-                                        <div className="weather-icon-display">
-                                            {getWeatherIconEmoji(weeklyData.daily.weather_code[index])}
-                                        </div>
-                                        <div className="day-temp">
-                                            <span className="temp-max">
-                                                {Math.round(weeklyData.daily.temperature_2m_max[index])}°
-                                            </span>
-                                            <span className="temp-min">
-                                                {Math.round(weeklyData.daily.temperature_2m_min[index])}°
-                                            </span>
-                                        </div>
-                                        <div className="day-condition">
-                                            {getWeatherDescription(weeklyData.daily.weather_code[index])}
-                                        </div>
-                                        <div className="day-precip">
-                                            {weeklyData.daily.precipitation_probability_max[index]}%
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
 
-                    {monthlyForecast && (
-                        <div className="monthly-forecast">
-                            <h2>Prakiraan Cuaca 30 Hari Ke Depan</h2>
-                            <div className="source-info">
-                                <strong>Sumber Data:</strong> Visual Crossing - Data cuaca global dengan resolusi tinggi untuk perencanaan jangka menengah
-                            </div>
-                            
-                            <div className="monthly-grid">
-                                {monthlyForecast.weeks.map((week, weekIndex) => (
-                                    week.length > 0 && (
-                                        <div key={weekIndex} className="week-container">
-                                            <div className="week-title">
-                                                Minggu {weekIndex + 1}
-                                            </div>
-                                            <div className="week-days">
-                                                {week.map((day, dayIndex) => (
-                                                    <div 
-                                                        key={dayIndex} 
-                                                        className={`monthly-day-card ${day.isSunday ? 'sunday' : ''} ${day.rainProb > 20 && !day.isSunday ? 'rain-warning' : ''}`}
-                                                    >
-                                                        <div className="monthly-day-name">
-                                                            {day.dayName.substring(0, 3).toUpperCase()}
-                                                        </div>
-                                                        <div className="monthly-day-date">
-                                                            {day.dateStr}
-                                                        </div>
-                                                        <div className="monthly-day-icon">
-                                                            {day.icon}
-                                                        </div>
-                                                        <div className="monthly-day-condition">
-                                                            {day.condition}
-                                                        </div>
-                                                        <div className="monthly-day-rain">
-                                                            {Math.round(day.rainProb)}%
-                                                        </div>
-                                                        <div className="monthly-day-temps">
-                                                            {day.tempMax}° / {day.tempMin}°
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )
-                                ))}
-                            </div>
+                    <h2 className="section-title">Perkiraan Cuaca 30 Hari Ke Depan</h2>
 
-                            <div className="summary-section">
-                                <div className="summary-title">
-                                    Rangkuman 30 Hari
-                                </div>
-                                <div className="source-info" style={{marginBottom: '20px', borderLeft: '4px solid #48bb78'}}>
-                                    <strong>Kriteria Penilaian:</strong><br/>
-                                    • Hari Hujan (Kerja) = Kemungkinan hujan LEBIH DARI 20% pada hari Senin-Sabtu<br/>
-                                    • Hari Cerah (Kerja) = Kemungkinan hujan 20% ATAU KURANG pada hari Senin-Sabtu<br/>
-                                    • Hari Minggu = Tidak dihitung sebagai hari kerja (ditampilkan dengan background merah muda)
-                                </div>
-                                <div className="summary-grid">
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Hujan (Kerja)</div>
-                                        <div className="summary-value">{monthlyForecast.rainDays}</div>
-                                    </div>
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Cerah (Kerja)</div>
-                                        <div className="summary-value">{monthlyForecast.clearDays}</div>
-                                    </div>
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Minggu</div>
-                                        <div className="summary-value">{monthlyForecast.sundays}</div>
-                                    </div>
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Kerja</div>
-                                        <div className="summary-value">{monthlyForecast.workDays}</div>
+                    <div className="monthly-forecast">
+                        <h2>Perkiraan Cuaca 30 Hari (Open-Meteo dan Visual Crossing)</h2>
+
+                        {/* Hari 1-15 - Open-Meteo */}
+                        <div className="monthly-grid">
+                            {openMeteoData?.daily?.temperature_2m_max.map((temp, index) => (
+                                <div className="monthly-day-card" key={index}>
+                                    <div className="monthly-day-name">Hari {index + 1}</div>
+                                    <div className="monthly-day-temps">
+                                        {Math.round(temp)}°C / {Math.round(openMeteoData.daily.temperature_2m_min[index])}°C
                                     </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
-                    )}
-                    
-                    <div className="data-sources">
-                        <h3>Informasi Sumber Data Cuaca</h3>
-                        <div className="sources-list">
-                            <div className="source-item">
-                                <div className="source-name">Open-Meteo</div>
-                                <div className="source-desc">
-                                    API meteorologi open-source dengan data dari layanan cuaca nasional global. 
-                                    Resolusi 1-11 km.
+
+                        {/* Hari 16-30 - Visual Crossing */}
+                        <div className="monthly-grid">
+                            {visualCrossingData?.days?.slice(15).map((day, index) => (
+                                <div className="monthly-day-card" key={index}>
+                                    <div className="monthly-day-name">Hari {index + 16}</div>
+                                    <div className="monthly-day-temps">
+                                        {Math.round(day.tempmax)}°C / {Math.round(day.tempmin)}°C
+                                    </div>
                                 </div>
-                                <div className="accuracy-badge">Akurasi: 95%</div>
-                            </div>
-                            <div className="source-item">
-                                <div className="source-name">Visual Crossing</div>
-                                <div className="source-desc">
-                                    Menggunakan 100,000+ stasiun cuaca global, satelit, dan RADAR resolusi tinggi untuk akurasi maksimal.
-                                </div>
-                                <div className="accuracy-badge">Akurasi: 94%</div>
-                            </div>
-                            <div className="source-item">
-                                <div className="source-name">Weather Data (Global)</div>
-                                <div className="source-desc">
-                                    Data cuaca global yang akurat dengan update real-time menggunakan teknologi meteorologi modern.
-                                </div>
-                                <div className="accuracy-badge">Akurasi: 93%</div>
-                            </div>
+                            ))}
                         </div>
-                        <p style={{marginTop: '20px', textAlign: 'center', color: '#666', fontSize: '14px'}}>
-                            Lokasi Aktif: {currentLocation.name} | Koordinat: {currentLocation.display} | Data diperbarui setiap 30 menit
-                        </p>
                     </div>
                 </div>
             );
         }
-        
+
         ReactDOM.render(<WeatherApp />, document.getElementById('root'));
     </script>
 </body>
