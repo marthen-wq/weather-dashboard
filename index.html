@@ -1532,43 +1532,40 @@
             const getMonthlyForecast = () => {
                 if (!monthlyData || !monthlyData.days) return null;
 
-                const days = monthlyData.days.map((day, index) => {
-                    const date = new Date(day.datetime);
-                    // Data HANYA tidak valid jika KEDUA suhu adalah 0 (API error)
-                    const isValidData = !(day.tempmax === 0 && day.tempmin === 0);
-                    return {
-                        date: date,
-                        dayName: getDayName(day.datetime),
-                        dateStr: formatDate(day.datetime),
-                        icon: getWeatherIconEmoji(vcIconToWeatherCode(day.icon)),
-                        condition: day.conditions,
-                        tempMax: Math.round(day.tempmax),
-                        tempMin: Math.round(day.tempmin),
-                        rainProb: day.precipprob || 0,
-                        isSunday: date.getDay() === 0,
-                        isValidData: isValidData
-                    };
-                });
+                // FILTER: Hanya ambil data yang VALID (bukan 0°/0°)
+                const validDays = monthlyData.days
+                    .filter(day => !(day.tempmax === 0 && day.tempmin === 0))
+                    .map((day, index) => {
+                        const date = new Date(day.datetime);
+                        return {
+                            date: date,
+                            dayName: getDayName(day.datetime),
+                            dateStr: formatDate(day.datetime),
+                            icon: getWeatherIconEmoji(vcIconToWeatherCode(day.icon)),
+                            condition: day.conditions,
+                            tempMax: Math.round(day.tempmax),
+                            tempMin: Math.round(day.tempmin),
+                            rainProb: day.precipprob || 0,
+                            isSunday: date.getDay() === 0
+                        };
+                    });
 
                 // Split into weeks
                 const weeks = [[], [], [], []];
-                days.forEach((day, index) => {
+                validDays.forEach((day, index) => {
                     const weekIndex = Math.floor(index / 7);
                     if (weekIndex < 4) {
                         weeks[weekIndex].push(day);
                     }
                 });
 
-                // Calculate summary - HANYA hari kerja (Senin-Sabtu) dengan data valid
+                // Calculate summary - HANYA hari kerja (Senin-Sabtu)
                 let rainDays = 0;
                 let clearDays = 0;
                 let sundays = 0;
                 let workDays = 0;
 
-                days.forEach(day => {
-                    // Skip data yang tidak valid (0° / 0°)
-                    if (!day.isValidData) return;
-                    
+                validDays.forEach(day => {
                     if (day.isSunday) {
                         sundays++;
                     } else {
@@ -1891,37 +1888,31 @@
                                                 Minggu {weekIndex + 1}
                                             </div>
                                             <div className="week-days">
-                                                {week.map((day, dayIndex) => {
-                                                    const isInvalidData = !day.isValidData;
-                                                    const isRainy = day.rainProb > 20 && !day.isSunday && day.isValidData;
-                                                    
-                                                    return (
-                                                        <div 
-                                                            key={dayIndex} 
-                                                            className={`monthly-day-card ${day.isSunday ? 'sunday' : ''} ${isRainy ? 'rain-warning' : ''}`}
-                                                            style={isInvalidData ? {opacity: 0.4, filter: 'grayscale(100%)'} : {}}
-                                                        >
-                                                            <div className="monthly-day-name">
-                                                                {day.dayName.substring(0, 3).toUpperCase()}
-                                                            </div>
-                                                            <div className="monthly-day-date">
-                                                                {day.dateStr}
-                                                            </div>
-                                                            <div className="monthly-day-icon">
-                                                                {day.icon}
-                                                            </div>
-                                                            <div className="monthly-day-condition">
-                                                                {day.condition}
-                                                            </div>
-                                                            <div className="monthly-day-rain">
-                                                                {Math.round(day.rainProb)}%
-                                                            </div>
-                                                            <div className="monthly-day-temps">
-                                                                {day.tempMax}° / {day.tempMin}°
-                                                            </div>
+                                                {week.map((day, dayIndex) => (
+                                                    <div 
+                                                        key={dayIndex} 
+                                                        className={`monthly-day-card ${day.isSunday ? 'sunday' : ''} ${day.rainProb > 20 && !day.isSunday ? 'rain-warning' : ''}`}
+                                                    >
+                                                        <div className="monthly-day-name">
+                                                            {day.dayName.substring(0, 3).toUpperCase()}
                                                         </div>
-                                                    );
-                                                })}
+                                                        <div className="monthly-day-date">
+                                                            {day.dateStr}
+                                                        </div>
+                                                        <div className="monthly-day-icon">
+                                                            {day.icon}
+                                                        </div>
+                                                        <div className="monthly-day-condition">
+                                                            {day.condition}
+                                                        </div>
+                                                        <div className="monthly-day-rain">
+                                                            {Math.round(day.rainProb)}%
+                                                        </div>
+                                                        <div className="monthly-day-temps">
+                                                            {day.tempMax}° / {day.tempMin}°
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                     )
@@ -1936,8 +1927,7 @@
                                     <strong>Kriteria Penilaian:</strong><br/>
                                     • Hari Hujan (Kerja) = Kemungkinan hujan LEBIH DARI 20% pada hari Senin-Sabtu<br/>
                                     • Hari Cerah (Kerja) = Kemungkinan hujan 20% ATAU KURANG pada hari Senin-Sabtu<br/>
-                                    • Hari Minggu = Tidak dihitung sebagai hari kerja (ditampilkan dengan background merah muda)<br/>
-                                    • Data tidak valid (0° / 0°) = Diabaikan dalam perhitungan dan ditampilkan abu-abu redup
+                                    • Hari Minggu = Tidak dihitung sebagai hari kerja (ditampilkan dengan background merah muda)
                                 </div>
                                 <div className="summary-grid">
                                     <div className="summary-item">
