@@ -1051,96 +1051,79 @@
                         setGoogleWeatherData(googleData);
                     }
                     
-                    // 4. MONTHLY DATA - 30 DAYS HYBRID (WeatherAPI 1-14 + Open-Meteo 15-30)
+                    // 4. MONTHLY DATA - 30 DAYS HYBRID (Open-Meteo 1-15 + Visual Crossing 16-30)
                     try {
-                        console.log('=== FETCHING MONTHLY DATA (HYBRID) ===');
+                        console.log('=== FETCHING MONTHLY DATA ===');
                         
-                        // 4a. Fetch WeatherAPI.com untuk 14 hari pertama (sangat akurat & reliable)
-                        const weatherApiUrl = `http://api.weatherapi.com/v1/forecast.json?key=${WEATHERAPI_KEY}&q=${LAT},${LON}&days=14&aqi=no`;
-                        console.log('WeatherAPI URL:', weatherApiUrl);
+                        // 4a. Fetch Open-Meteo untuk 15 hari pertama
+                        const openMeteoMonthlyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=auto&forecast_days=15`;
+                        console.log('Open-Meteo URL:', openMeteoMonthlyUrl);
                         
-                        const weatherApiResponse = await fetch(weatherApiUrl);
-                        const weatherApiData = await weatherApiResponse.json();
-                        console.log('WeatherAPI data:', weatherApiData);
+                        const openMeteoMonthlyResponse = await fetch(openMeteoMonthlyUrl);
+                        const openMeteoMonthlyData = await openMeteoMonthlyResponse.json();
+                        console.log('Open-Meteo monthly data:', openMeteoMonthlyData);
 
-                        // 4b. Fetch Open-Meteo untuk 16 hari (ambil hari 15-16, extend pattern untuk 17-30)
-                        const openMeteoExtendedUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=auto&forecast_days=16`;
-                        console.log('Open-Meteo Extended URL:', openMeteoExtendedUrl);
+                        // 4b. Fetch Visual Crossing untuk hari 16-30 (15 hari)
+                        const today = new Date();
+                        const vcStartDate = new Date(today);
+                        vcStartDate.setDate(today.getDate() + 15); // Mulai dari hari ke-16
+                        const vcEndDate = new Date(today);
+                        vcEndDate.setDate(today.getDate() + 29); // Sampai hari ke-30
                         
-                        const openMeteoExtendedResponse = await fetch(openMeteoExtendedUrl);
-                        const openMeteoExtendedData = await openMeteoExtendedResponse.json();
-                        console.log('Open-Meteo Extended data:', openMeteoExtendedData);
+                        const formatDateVC = (date) => {
+                            const year = date.getFullYear();
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const day = String(date.getDate()).padStart(2, '0');
+                            return `${year}-${month}-${day}`;
+                        };
+                        
+                        const vcStartDateStr = formatDateVC(vcStartDate);
+                        const vcEndDateStr = formatDateVC(vcEndDate);
+                        
+                        const vcMonthlyUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${LAT},${LON}/${vcStartDateStr}/${vcEndDateStr}?unitGroup=metric&key=${VISUAL_CROSSING_KEY}&include=days&elements=datetime,tempmax,tempmin,precipprob,conditions,icon`;
+                        console.log('Visual Crossing URL:', vcMonthlyUrl);
+                        
+                        const vcMonthlyResponse = await fetch(vcMonthlyUrl);
+                        console.log('VC Response status:', vcMonthlyResponse.status);
+                        
+                        const vcMonthlyData = await vcMonthlyResponse.json();
+                        console.log('Visual Crossing monthly data:', vcMonthlyData);
 
-                        // 4c. Gabungkan data: 14 hari WeatherAPI + 16 hari dari Open-Meteo (extend untuk 17-30)
+                        // 4c. Gabungkan data
                         const combinedDays = [];
                         
-                        // Hari 1-14 dari WeatherAPI.com (sangat akurat)
-                        if (weatherApiData.forecast && weatherApiData.forecast.forecastday) {
-                            console.log('Processing WeatherAPI days:', weatherApiData.forecast.forecastday.length);
-                            weatherApiData.forecast.forecastday.forEach((day, index) => {
+                        // Hari 1-15 dari Open-Meteo
+                        if (openMeteoMonthlyData.daily && openMeteoMonthlyData.daily.time) {
+                            for (let i = 0; i < openMeteoMonthlyData.daily.time.length; i++) {
                                 combinedDays.push({
-                                    datetime: day.date,
-                                    tempmax: day.day.maxtemp_c,
-                                    tempmin: day.day.mintemp_c,
-                                    precipprob: day.day.daily_chance_of_rain || 0,
-                                    conditions: day.day.condition.text,
-                                    weatherCode: getWeatherCodeFromWeatherAPI(day.day.condition.text),
-                                    source: 'WeatherAPI'
+                                    datetime: openMeteoMonthlyData.daily.time[i],
+                                    tempmax: openMeteoMonthlyData.daily.temperature_2m_max[i],
+                                    tempmin: openMeteoMonthlyData.daily.temperature_2m_min[i],
+                                    precipprob: openMeteoMonthlyData.daily.precipitation_probability_max[i] || 0,
+                                    conditions: getWeatherDescription(openMeteoMonthlyData.daily.weather_code[i]),
+                                    weatherCode: openMeteoMonthlyData.daily.weather_code[i],
+                                    source: 'Open-Meteo'
+                                });
+                            }
+                        }
+
+                        // Hari 16-30 dari Visual Crossing
+                        if (vcMonthlyData.days && vcMonthlyData.days.length > 0) {
+                            vcMonthlyData.days.forEach((day) => {
+                                combinedDays.push({
+                                    datetime: day.datetime,
+                                    tempmax: day.tempmax,
+                                    tempmin: day.tempmin,
+                                    precipprob: day.precipprob || 0,
+                                    conditions: day.conditions,
+                                    icon: day.icon,
+                                    source: 'Visual Crossing'
                                 });
                             });
                         }
 
-                        // Hari 15-16 dari Open-Meteo (index 14-15 karena 0-based)
-                        if (openMeteoExtendedData.daily && openMeteoExtendedData.daily.time) {
-                            console.log('Processing Open-Meteo extended days:', openMeteoExtendedData.daily.time.length);
-                            
-                            // Ambil hari 15-16 (index 14-15)
-                            for (let i = 14; i < Math.min(16, openMeteoExtendedData.daily.time.length); i++) {
-                                combinedDays.push({
-                                    datetime: openMeteoExtendedData.daily.time[i],
-                                    tempmax: openMeteoExtendedData.daily.temperature_2m_max[i],
-                                    tempmin: openMeteoExtendedData.daily.temperature_2m_min[i],
-                                    precipprob: openMeteoExtendedData.daily.precipitation_probability_max[i] || 0,
-                                    conditions: getWeatherDescription(openMeteoExtendedData.daily.weather_code[i]),
-                                    weatherCode: openMeteoExtendedData.daily.weather_code[i],
-                                    source: 'Open-Meteo'
-                                });
-                            }
-                            
-                            // Hari 17-30: Extended forecast menggunakan trend pattern dari 2 minggu terakhir
-                            if (combinedDays.length >= 14) {
-                                console.log('Generating extended forecast for days 17-30 using trend analysis');
-                                const lastTwoWeeks = combinedDays.slice(0, 14);
-                                
-                                for (let dayOffset = 16; dayOffset < 30; dayOffset++) {
-                                    // Gunakan pattern dari 2 minggu sebelumnya (cyclical)
-                                    const referenceDay = lastTwoWeeks[dayOffset % 14];
-                                    const baseDate = new Date(combinedDays[0].datetime);
-                                    baseDate.setDate(baseDate.getDate() + dayOffset);
-                                    
-                                    const formatDateISO = (date) => {
-                                        const year = date.getFullYear();
-                                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                                        const day = String(date.getDate()).padStart(2, '0');
-                                        return `${year}-${month}-${day}`;
-                                    };
-                                    
-                                    combinedDays.push({
-                                        datetime: formatDateISO(baseDate),
-                                        tempmax: referenceDay.tempmax,
-                                        tempmin: referenceDay.tempmin,
-                                        precipprob: referenceDay.precipprob,
-                                        conditions: referenceDay.conditions + ' (Trend)',
-                                        weatherCode: referenceDay.weatherCode,
-                                        source: 'Statistical'
-                                    });
-                                }
-                            }
-                        }
-
                         console.log('Total combined days:', combinedDays.length);
                         setMonthlyData({ days: combinedDays.slice(0, 30) });
-                        console.log('Monthly hybrid data loaded: 14 from WeatherAPI + 2 from Open-Meteo + 14 statistical trend');
                     } catch (monthlyErr) {
                         console.error('Error fetching monthly data:', monthlyErr);
                     }
@@ -1633,7 +1616,7 @@
             const getMonthlyForecast = () => {
                 if (!monthlyData || !monthlyData.days) return null;
 
-                // AMBIL 30 HARI PENUH - hybrid WeatherAPI + Open-Meteo + Statistical
+                // AMBIL 30 HARI - Open-Meteo (1-15) + Visual Crossing (16-30)
                 const days = monthlyData.days.slice(0, 30).map((day, index) => {
                     const date = new Date(day.datetime);
                     const hasValidData = !(day.tempmax === 0 && day.tempmin === 0);
@@ -1641,14 +1624,10 @@
                     // Tentukan icon berdasarkan sumber data
                     let weatherIcon;
                     if (hasValidData) {
-                        if (day.source === 'WeatherAPI' || day.source === 'Statistical') {
-                            // Untuk WeatherAPI dan Statistical, gunakan weatherCode yang sudah diconvert
-                            weatherIcon = getWeatherIconEmoji(day.weatherCode);
-                        } else if (day.source === 'Open-Meteo') {
-                            // Untuk Open-Meteo, gunakan weatherCode
+                        if (day.source === 'Open-Meteo') {
                             weatherIcon = getWeatherIconEmoji(day.weatherCode);
                         } else {
-                            // Untuk Visual Crossing (jika masih ada), gunakan icon mapping
+                            // Visual Crossing
                             weatherIcon = getWeatherIconEmoji(vcIconToWeatherCode(day.icon));
                         }
                     } else {
@@ -1666,11 +1645,11 @@
                         rainProb: hasValidData ? (day.precipprob || 0) : 0,
                         isSunday: date.getDay() === 0,
                         hasValidData: hasValidData,
-                        source: day.source // Simpan info sumber data
+                        source: day.source
                     };
                 });
 
-                // Split into weeks - buat 5 minggu untuk handle 30 hari
+                // Split into weeks
                 const weeks = [[], [], [], [], []];
                 days.forEach((day, index) => {
                     const weekIndex = Math.floor(index / 7);
@@ -1679,27 +1658,22 @@
                     }
                 });
 
-                // Calculate summary - HANYA dari data VALID
+                // Calculate summary
                 let rainDays = 0;
                 let clearDays = 0;
                 let sundays = 0;
                 let workDays = 0;
 
                 days.forEach(day => {
-                    // Hanya hitung jika data valid
                     if (!day.hasValidData) return;
                     
                     if (day.isSunday) {
                         sundays++;
                     } else {
-                        // Hari kerja (Senin - Sabtu)
                         workDays++;
-                        
-                        // Kriteria hujan: kemungkinan hujan > 20%
                         if (day.rainProb > 20) {
                             rainDays++;
                         } else {
-                            // Kriteria cerah: kemungkinan hujan <= 20%
                             clearDays++;
                         }
                     }
@@ -2000,7 +1974,7 @@
                         <div className="monthly-forecast">
                             <h2>Prakiraan Cuaca 30 Hari Ke Depan (Hybrid Data)</h2>
                             <div className="source-info">
-                                <strong>Sumber Data:</strong> Hari 1-14 dari WeatherAPI.com (sangat akurat) + Hari 15-16 dari Open-Meteo (reliable) + Hari 17-30 dari Analisis Trend Statistik
+                                <strong>Sumber Data:</strong> Hari 1-15 dari Open-Meteo (akurat jangka pendek) + Hari 16-30 dari Visual Crossing (extended forecast)
                             </div>
                             
                             <div className="monthly-grid">
@@ -2024,11 +1998,11 @@
                                                                 marginTop: '2px',
                                                                 padding: '2px 4px',
                                                                 borderRadius: '3px',
-                                                                background: day.source === 'WeatherAPI' ? '#c8e6c9' : (day.source === 'Open-Meteo' ? '#e3f2fd' : '#fff3cd'),
-                                                                color: day.source === 'WeatherAPI' ? '#2e7d32' : (day.source === 'Open-Meteo' ? '#1976d2' : '#f57c00'),
+                                                                background: day.source === 'Open-Meteo' ? '#e3f2fd' : '#fff3e0',
+                                                                color: day.source === 'Open-Meteo' ? '#1976d2' : '#ef6c00',
                                                                 fontWeight: 'bold'
                                                             }}>
-                                                                {day.source === 'WeatherAPI' ? 'WA' : (day.source === 'Open-Meteo' ? 'OM' : 'ST')}
+                                                                {day.source === 'Open-Meteo' ? 'OM' : 'VC'}
                                                             </div>
                                                         </div>
                                                         <div className="monthly-day-date">
@@ -2061,10 +2035,9 @@
                                     Rangkuman 30 Hari
                                 </div>
                                 <div className="source-info" style={{marginBottom: '20px', borderLeft: '4px solid #48bb78'}}>
-                                    <strong>Sumber Data Prakiraan 30 Hari (Hybrid 3 API):</strong><br/>
-                                    • Hari 1-14: <strong>WeatherAPI.com (Badge: WA hijau)</strong> - Data prediksi sangat akurat dari model cuaca global, 99.99% uptime<br/>
-                                    • Hari 15-16: <strong>Open-Meteo (Badge: OM biru)</strong> - Data prediksi akurat dari model cuaca nasional Eropa<br/>
-                                    • Hari 17-30: <strong>Analisis Trend Statistik (Badge: ST orange)</strong> - Proyeksi berdasarkan pola cuaca 2 minggu sebelumnya (cyclical pattern)<br/>
+                                    <strong>Sumber Data Prakiraan 30 Hari (Hybrid):</strong><br/>
+                                    • Hari 1-15: <strong>Open-Meteo (Badge: OM biru)</strong> - Data prediksi akurat jangka pendek dari model cuaca nasional<br/>
+                                    • Hari 16-30: <strong>Visual Crossing (Badge: VC orange)</strong> - Data prediksi jangka menengah dengan extended forecast<br/>
                                     <br/>
                                     <strong>Kriteria Penilaian:</strong><br/>
                                     • Hari Hujan (Kerja) = Kemungkinan hujan LEBIH DARI 20% pada hari Senin-Sabtu<br/>
