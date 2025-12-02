@@ -791,15 +791,16 @@
 
         .summary-item {
             background: white;
-            padding: 15px;
+            padding: 25px 20px;
             border-radius: 10px;
             text-align: center;
         }
 
         .summary-label {
-            font-size: 12px;
+            font-size: 16px;
             color: #666;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .summary-value {
@@ -2012,6 +2013,27 @@
                             </div>
 
                             <div className="summary-section">
+                                {/* STATISTIK DULU - DIPERBESAR */}
+                                <div className="summary-grid" style={{marginBottom: '30px'}}>
+                                    <div className="summary-item">
+                                        <div className="summary-label">Total Hari Hujan (Kerja)</div>
+                                        <div className="summary-value" style={{fontSize: '48px', fontWeight: 'bold'}}>{monthlyForecast.rainDays}</div>
+                                    </div>
+                                    <div className="summary-item">
+                                        <div className="summary-label">Total Hari Cerah (Kerja)</div>
+                                        <div className="summary-value" style={{fontSize: '48px', fontWeight: 'bold'}}>{monthlyForecast.clearDays}</div>
+                                    </div>
+                                    <div className="summary-item">
+                                        <div className="summary-label">Total Hari Minggu</div>
+                                        <div className="summary-value" style={{fontSize: '48px', fontWeight: 'bold'}}>{monthlyForecast.sundays}</div>
+                                    </div>
+                                    <div className="summary-item">
+                                        <div className="summary-label">Total Hari Kerja</div>
+                                        <div className="summary-value" style={{fontSize: '48px', fontWeight: 'bold'}}>{monthlyForecast.workDays}</div>
+                                    </div>
+                                </div>
+                                
+                                {/* BARU TITLE DAN PENJELASAN */}
                                 <div className="summary-title">
                                     Rangkuman 30 Hari
                                 </div>
@@ -2028,24 +2050,6 @@
                                     • Hari Hujan (Kerja) = Kemungkinan hujan LEBIH DARI 20% pada hari Senin-Sabtu<br/>
                                     • Hari Cerah (Kerja) = Kemungkinan hujan 20% ATAU KURANG pada hari Senin-Sabtu<br/>
                                     • Hari Minggu = Tidak dihitung sebagai hari kerja (background merah muda)
-                                </div>
-                                <div className="summary-grid">
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Hujan (Kerja)</div>
-                                        <div className="summary-value">{monthlyForecast.rainDays}</div>
-                                    </div>
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Cerah (Kerja)</div>
-                                        <div className="summary-value">{monthlyForecast.clearDays}</div>
-                                    </div>
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Minggu</div>
-                                        <div className="summary-value">{monthlyForecast.sundays}</div>
-                                    </div>
-                                    <div className="summary-item">
-                                        <div className="summary-label">Total Hari Kerja</div>
-                                        <div className="summary-value">{monthlyForecast.workDays}</div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
